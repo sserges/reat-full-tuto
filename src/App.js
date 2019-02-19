@@ -1,38 +1,33 @@
-import React from "react"
-import TodoItem from "./components/TodoItem"
-import todosData from "./constants/todosData"
+import React, {Component} from "react"
 
-class App extends React.Component {
+class App extends Component {
     constructor() {
         super()
         this.state = {
-            todos: todosData
+            loading: false,
+            character: {}
         }
-        this.handleChange = this.handleChange.bind(this)
     }
-    
-    handleChange(id) {
-        this.setState(prevState => {
-            const updatedTodos = prevState.todos.map(todo => {
-                if (todo.id === id) {
-                    todo.completed = !todo.completed
-                }
-                return todo
+
+    componentDidMount() {
+        this.setState({loading: true})
+        fetch("https://swapi.co/api/people/1")
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    character: data,
+                    loading: false,
+                })
             })
-            return {
-                todos: updatedTodos
-            }
-        })
     }
     
     render() {
-        const todoItems = this.state.todos.map(item => <TodoItem key={item.id} item={item} handleChange={this.handleChange}/>)
-        
+        const text = this.state.loading ? "Loading..." : this.state.character.name
         return (
-            <div className="todo-list">
-                {todoItems}
+            <div>
+                {text}
             </div>
-        )    
+        )
     }
 }
 
