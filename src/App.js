@@ -1,11 +1,14 @@
 import React from "react"
 
-import Form from './components/FormContainer'
-
+import Header from './components/Header'
+import MemeGenerator from './components/MemeGenerator'
 
 function App() {
     return (
-        <Form />
+        <div>
+            <Header />
+            <MemeGenerator />
+        </div>
     )
 }
 
